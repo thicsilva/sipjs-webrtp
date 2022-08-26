@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import FILES from './sounds';
 
 // @Injectable({
@@ -34,7 +33,11 @@ let SOUNDS = [
      // tslint:disable-next-line:no-string-literal
      {playing: null, name: 'error_404', audio: createAudio(FILES['error_404']),  volume: 1.0 },
      // tslint:disable-next-line:no-string-literal
-     {playing: null, name: 'error_general', audio: createAudio(FILES['error_general']),  volume: 1.0 }
+     {playing: null, name: 'error_general', audio: createAudio(FILES['error_general']),  volume: 1.0 },
+     // tslint:disable-next-line:no-string-literal
+     {playing: null, name: 'incoming', audio: createAudio(FILES['incoming']),  volume: 1.0 },
+     // tslint:disable-next-line:no-string-literal
+     {playing: null, name: 'outgoing', audio: createAudio(FILES['outgoing']),  volume: 1.0 }
 ];
 
 let initialized = false;

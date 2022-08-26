@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import audioPlayer from './sounds.service';
 import { ToneService } from './tone.service';
-import { inspect } from 'util';
-import { Howl } from 'howler';
 import {
   Invitation,
   Inviter,
@@ -19,15 +17,11 @@ import {
   UserAgentOptions,
   InvitationAcceptOptions,
   Notification,
-  Web,
   RegistererRegisterOptions,
   RegistererState,
   RegistererUnregisterOptions,
   InviterInviteOptions,
   Message,
-  SessionInviteOptions,
-  Messager,
-  RequestPendingError,
   Bye
 } from 'sip.js';
 import { SimpleUserDelegate } from 'sip.js/lib/platform/web/simple-user/simple-user-delegate';
@@ -74,9 +68,7 @@ export class SipjsService {
   private session: Session | undefined = undefined;
   private mediaElement: any;
   private audioElement: HTMLAudioElement;
-  private chatMedia: { sessionDescriptionHandlerOptions: { constraints: { audio: any; video: any; }; }; };
-  private outgoingCallSound = new Howl({src: ['https://dhcomm.net/sounds/RingBack.mp3'], loop: true, html5 : true});
-  private incomingcallSound = new Howl({src: ['https://dhcomm.net/sounds/warble4-trill.wav'], loop: true, html5 : true});
+  private chatMedia: { sessionDescriptionHandlerOptions: { constraints: { audio: any; video: any; }; }; };  
 
 
   constructor(
@@ -99,13 +91,13 @@ export class SipjsService {
     try {
 
         const transportOptions = {
-          server: 'wss://' + userInfo.dom + ':' + userInfo.wss,
+          server: userInfo.wsServer,
           traceSip: true,
           bundlePolicy: 'max-bundle',
           rtcpMuxPolicy: 'negotiate'
         };
 
-        const uri = UserAgent.makeURI('sip:' + userInfo.ext + '@' + userInfo.dom + ':' + userInfo.wss);
+        const uri = UserAgent.makeURI('sip:' + userInfo.extension + '@' + userInfo.realm);
 
         if (!uri) {
           console.log('SIPJS Error, URI error');
@@ -114,8 +106,8 @@ export class SipjsService {
         } else {
 
           const userAgentOptions: UserAgentOptions = {
-            authorizationPassword: userInfo.pwd,
-            authorizationUsername: userInfo.ext,
+            authorizationPassword: userInfo.password,
+            authorizationUsername: userInfo.extension,
             uri,
             transportOptions
           };
@@ -272,7 +264,8 @@ export class SipjsService {
 
     // ***** Initialize the incoming call session making use of the same function ***** //
     this.initSession(session).then(() => {
-      this.incomingcallSound.play();
+      // this.incomingcallSound.play();
+      audioPlayer.play('incoming', true)
     });
   }
 
@@ -312,9 +305,9 @@ export class SipjsService {
     }
 
     // **** After rejecting the call, the sounds are cleaned ***** //
-    await this.session.reject().then(() => {
-      this.incomingcallSound.stop();
-      this.outgoingCallSound.stop();
+    await this.session.reject().then(() => {      
+      audioPlayer.stop('incoming');
+      audioPlayer.stop('outgoing');
       this.activeCall = false;
     });
   }
@@ -425,8 +418,8 @@ export class SipjsService {
                         .then((request: OutgoingInviteRequest) => {
                           console.log('***************** Successfully < SENT INVITE > *********************');
                           console.log('INVITE request');
-                          console.log(request);
-                          this.outgoingCallSound.play();
+                          console.log(request);                          
+                          audioPlayer.play('outgoing' ,true);
                           this.offeredVideo = (vOpt ? true : false);
                         })
                         .catch((error: Error) => {
@@ -465,10 +458,10 @@ export class SipjsService {
         case SessionState.Established:
           // alert('Established');
           this.globals.onCall = true;
-          this.globals.outgoingCall = false;
-          this.outgoingCallSound.stop();
-          this.globals.incomingCall = false;
-          this.incomingcallSound.stop();
+          this.globals.outgoingCall = false;          
+          audioPlayer.stop('outgoing')
+          this.globals.incomingCall = false;          
+          audioPlayer.stop('incoming');
           window.localStorage.setItem('onCall', 'true');
           if (this.session.sessionDescriptionHandlerOptions.constraints['video']) {
             this.setupLocalMedia();
@@ -485,10 +478,11 @@ export class SipjsService {
           this.globals.onCall = false;
           this.globals.incomingNumber = '';
           this.globals.outgoingNumber = '';
-          this.globals.incomingCall = false;
-          this.incomingcallSound.stop();
-          this.globals.outgoingCall = false;
-          this.outgoingCallSound.stop();
+          this.globals.incomingCall = false;          
+          audioPlayer.stop('incoming');
+          this.globals.outgoingCall = false;          
+          audioPlayer.stop('outgoing');
+          
           this.localVideo = false;
           this.offeredVideo = false;
           window.localStorage.setItem('onCall', 'false');
@@ -757,7 +751,7 @@ export class SipjsService {
 
     console.log(` Sending DTMF tone: ${tone}`);
     const dtmf = tone;
-    const duration = 2000;
+    const duration = 300;
     const body = {
       contentDisposition: 'render',
       contentType: 'application/dtmf-relay',

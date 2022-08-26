@@ -19,9 +19,10 @@ export class RegistrationComponent implements OnInit {
   urlClient = '/account-activate';
 
   registForm = new FormGroup({
-    domain: new FormControl(''),
+    realm: new FormControl(''),
+    wsServer: new FormControl(''),
     username: new FormControl(''),
-    paswword: new FormControl('')
+    password: new FormControl('')    
   });
 
 
@@ -42,7 +43,8 @@ export class RegistrationComponent implements OnInit {
     setTimeout(() => this.signupAlertClosed = true, 1000);
 
     this.registForm = this.formBuilder.group({
-      domain: ['', Validators.compose([Validators.required])],
+      realm: ['', Validators.compose([Validators.required])],
+      wsServer: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -54,11 +56,10 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    const userCred = {  ext: this.registForm.controls.username.value,
-                        pwd: this.registForm.controls.password.value,
-                        fn:  this.registForm.controls.username.value,
-                        dom: this.registForm.controls.domain.value,
-                        wss: 7443 };
+    const userCred = {  extension: this.registForm.controls.username.value,
+                        password: this.registForm.controls.password.value,                        
+                        realm: this.registForm.controls.realm.value,
+                        wsServer: this.registForm.controls.wsServer.value };
 
     const conn = await this.sipJs.connect(userCred);
 

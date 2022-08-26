@@ -7,11 +7,10 @@ export class Globals {
 
   // ***** Object to be used for setup the user credentials, set as Local Storage and to be
   // ***** reuse it to make login when the user refreh de web site
-  userCredentials = { ext: null,
-                      pwd: null,
-                      fn: null,
-                      dom: null,
-                      wss: null };
+  userCredentials = { extension: null,
+                      password: null,                      
+                      realm: null,
+                      wsServer: null };
 
   incomingCall = false;
   outgoingCall = false;
