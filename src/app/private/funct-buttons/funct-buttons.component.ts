@@ -34,12 +34,13 @@ export class FunctButtonsComponent implements OnInit {
     }
     const phoNumb = this.glob.outgoingNumber;
 
-    if (this.sipJs.makeCall(phoNumb, vidOpt)) {
+    await this.sipJs.makeCall(phoNumb, vidOpt).then(async ()=>{
       this.glob.outgoingCall = true;
       if (vidOpt) {
-        this.router.navigate(['room']);
+        await this.router.navigate(['room']);
       }
-    }
+    })
+
   }
 
 

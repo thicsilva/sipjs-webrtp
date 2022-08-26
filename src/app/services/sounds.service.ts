@@ -1,17 +1,5 @@
 import FILES from './sounds';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class SoundsService {
-
-//   constructor() { }
-// }
-
-
-
-
-
 const createAudio = (file: string) => {
     const audio = document.createElement('audio');
     audio.src = file;
