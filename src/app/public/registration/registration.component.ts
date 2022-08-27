@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, Validators } from '@angular/forms';
 import { SipjsService } from '../../services/sipjs.service';
 import { Globals } from '../../globals';
 
@@ -18,16 +18,16 @@ export class RegistrationComponent implements OnInit {
   showSuccess = false;
   urlClient = '/account-activate';
 
-  registForm = new FormGroup({
-    realm: new FormControl(''),
-    wsServer: new FormControl(''),
-    username: new FormControl(''),
-    password: new FormControl('')    
+  registForm = new UntypedFormGroup({
+    realm: new UntypedFormControl(''),
+    wsServer: new UntypedFormControl(''),
+    username: new UntypedFormControl(''),
+    password: new UntypedFormControl('')    
   });
 
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private sipJs: SipjsService,
     globals: Globals

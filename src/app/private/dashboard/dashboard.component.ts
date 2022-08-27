@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, FormBuilder, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormBuilder, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { SipjsService } from '../../services/sipjs.service';
 import { Globals } from '../../globals';
 
@@ -16,12 +16,12 @@ export class DashboardComponent implements OnInit {
 
   public uaInfo: any = {};
 
-  callerForm = new FormGroup({
-    phoneNumber: new FormControl('')
+  callerForm = new UntypedFormGroup({
+    phoneNumber: new UntypedFormControl('')
   });
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     public sipJs: SipjsService,
     globals: Globals

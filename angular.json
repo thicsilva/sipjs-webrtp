@@ -115,7 +115,6 @@
       }
     }
   },
-  "defaultProject": "fokuz",
   "cli": {
     "analytics": false
   }
