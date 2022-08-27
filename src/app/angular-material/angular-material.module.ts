@@ -18,7 +18,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatCarouselModule } from '@ngmodule/material-carousel';
+// import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
@@ -49,7 +49,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatBottomSheetModule,
     MatTableModule,
     MatTabsModule,
-    MatCarouselModule,
+    // MatCarouselModule,
     MatCardModule,
     MatStepperModule,
     MatRadioModule,
@@ -78,7 +78,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatBottomSheetModule,
     MatTableModule,
     MatTabsModule,
-    MatCarouselModule,
+    // MatCarouselModule,
     MatCardModule,
     MatStepperModule,
     MatRadioModule,
