@@ -23,7 +23,7 @@
     "@angular/router": "^11.2.14",
     "@auth0/angular-jwt": "^5.0.2",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ngmodule/material-carousel": "^0.6.0",
+    "@ngbmodule/material-carousel": "^0.7.2",    
     "@types/howler": "^2.2.7",
     "bootstrap": "^4.6.2",
     "howler": "^2.2.3",
