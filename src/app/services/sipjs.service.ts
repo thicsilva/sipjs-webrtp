@@ -468,6 +468,7 @@ export class SipjsService {
             this.localVideo = true;
           }
           await this.setupRemoteMedia();
+          this.recordCall.setupMediaRecorder(this.remoteMediaStream);
           this.removeSounds();
           break;
         case SessionState.Terminating:
