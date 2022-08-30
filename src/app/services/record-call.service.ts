@@ -7,18 +7,23 @@ import { Globals } from '../globals';
 export class RecordCallService {
 
   private mediaRecorder: MediaRecorder;
-  private chunks = [];
-  private constraints = { audio: true };
+  private chunks = [];  
   private globals: Globals;
 
   constructor(globals: Globals) {    
     this.globals = globals;    
   }
 
-  public setupMediaRecorder(stream:MediaStream)
-  {
-    const ac = new AudioContext();        
-    this.mediaRecorder = new MediaRecorder(stream);    
+  public setupMediaRecorder(inputStream:MediaStream, outputStream:MediaStream)
+  {    
+    const context = new AudioContext();
+    const input = context.createMediaStreamSource(inputStream);
+    const output = context.createMediaStreamSource(outputStream);    
+    const finalAudio = context.createMediaStreamDestination();
+    
+    this.mediaRecorder = new MediaRecorder(finalAudio.stream);
+    input.connect(finalAudio);
+    output.connect(finalAudio);
     this.setListeners();
   }
 

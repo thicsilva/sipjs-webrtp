@@ -468,7 +468,7 @@ export class SipjsService {
             this.localVideo = true;
           }
           await this.setupRemoteMedia();
-          this.recordCall.setupMediaRecorder(this.remoteMediaStream);
+          this.recordCall.setupMediaRecorder(this.localMediaStream, this.remoteMediaStream);
           this.removeSounds();
           break;
         case SessionState.Terminating:
@@ -489,6 +489,9 @@ export class SipjsService {
           window.localStorage.setItem('onCall', 'false');
           await this.cleanupMedia();
           this.session = undefined;
+
+          if (this.globals.isRecording)
+            this.recordCall.stopRecord();
 
           break;
         default:
@@ -627,8 +630,7 @@ export class SipjsService {
 
   // ***** Function called by the User Interface ***** //
   public async hangupCall(): Promise<void> {
-    if (this.globals.isRecording)
-      this.recordCall.stopRecord();
+    
     return await this.terminate();
   }
 
