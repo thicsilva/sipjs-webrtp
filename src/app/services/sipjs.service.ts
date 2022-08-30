@@ -30,6 +30,7 @@ import {SessionDescriptionHandler} from 'sip.js/lib/platform/web';
 import {OutgoingInviteRequest} from 'sip.js/lib/core';
 
 import {Globals} from '../globals';
+import { RecordCallService } from './record-call.service';
 
 
 function _window(idElement: any): any {
@@ -68,11 +69,13 @@ export class SipjsService {
   private mediaElement: any;
   private audioElement: HTMLAudioElement;
   private chatMedia: { sessionDescriptionHandlerOptions: { constraints: { audio: any; video: any; }; }; };
+  private mediaRecord: MediaRecorder;
 
 
   constructor(
     public toneService: ToneService,
     public router: Router,
+    private recordCall:RecordCallService,
     globals: Globals,
   ) {
 
@@ -623,6 +626,8 @@ export class SipjsService {
 
   // ***** Function called by the User Interface ***** //
   public async hangupCall(): Promise<void> {
+    if (this.globals.isRecording)
+      this.recordCall.stopRecord();
     return await this.terminate();
   }
 
@@ -680,6 +685,7 @@ export class SipjsService {
     }
 
     console.log(`Terminating in state ${this.session.state}, no action taken`);
+    
     await this.router.navigate(['dashboard']);
     await this.attemptReconnection();
     return Promise.resolve();

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SipjsService } from '../../services/sipjs.service';
 import { Globals } from '../../globals';
+import { RecordCallService } from 'src/app/services/record-call.service';
 
 @Component({
   selector: 'app-funct-buttons',
@@ -15,6 +16,7 @@ export class FunctButtonsComponent implements OnInit {
   constructor(
     private router: Router,
     public sipJs: SipjsService,
+    public recordCal: RecordCallService,
     glob: Globals
   ) {
     this.glob = glob;
@@ -57,7 +59,14 @@ export class FunctButtonsComponent implements OnInit {
     } else {
       this.sipJs.unmute();
     }
+  }
 
+  setRecordState():void{
+    if (!this.glob.isRecording){
+      this.recordCal.startRecord();
+    } else {
+      this.recordCal.stopRecord();
+    }
   }
 
   switchDialpad(): void {

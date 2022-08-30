@@ -19,6 +19,7 @@ export class Globals {
 
   onCall: boolean;
   showOncall: boolean;
+  isRecording: boolean = false;
 
   videoChat: boolean;
   maxListCalls = 3;
