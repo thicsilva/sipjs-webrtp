@@ -74,6 +74,18 @@
     <mat-icon *ngIf="glob.isRecording">stop</mat-icon>
   </button>
 
+  <button mat-icon-button style="color:#af0f0f;" [hidden]="!glob.onCall"
+          (click)="callToOther()"
+          #tooltip="matTooltip"
+          [matTooltip]="('Transferir')"
+          matTooltipPosition="above"
+          matTooltipHideDelay="100"
+          id="btnTransfer"
+  >
+    <mat-icon>arrow_forward</mat-icon>    
+  </button>
+
+
   <!-- <button mat-icon-button style="color:#ff4500;" (click)="setHold()"
           #tooltip="matTooltip"
           [matTooltip]="(!sipJs.isHeld() ? 'Hold' : 'Unhold')"

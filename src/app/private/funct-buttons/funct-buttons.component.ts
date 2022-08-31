@@ -77,5 +77,14 @@ export class FunctButtonsComponent implements OnInit {
     console.log('...');
   }
 
+  callToOther():void{
+    this.sipJs.sendDTMF("*");
+    this.sipJs.sendDTMF("2");
+    setTimeout(()=>2000);
+    this.sipJs.sendDTMF("1");
+    this.sipJs.sendDTMF("1");
+    this.sipJs.sendDTMF("1");
+    this.sipJs.sendDTMF("1");
+  }
 
 }
